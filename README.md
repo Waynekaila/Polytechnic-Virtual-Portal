@@ -93,7 +93,7 @@ Le projet suit une structure claire en 4 phases :
 ## 🚀 Lancer le projet en local
 
 ```bash
-git clone https://github.com/votre-utilisateur/nom-du-repo.git
+git clone https://github.com/Waynekaila/Polytechnic-Virtual-Portal.git
 cd nom-du-repo
 python3 -m venv env
 source env/bin/activate
