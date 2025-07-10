@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demander un Accès - Portail Virtuel Académique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .request-container {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .request-container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .input-field:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .btn-request {
+            background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-request:hover {
+            background-image: linear-gradient(to right, #4338ca, #6d28d9);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="request-container bg-white rounded-2xl overflow-hidden flex flex-col max-w-2xl w-full p-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Demander un Accès</h1>
+            <p class="text-gray-600">Veuillez remplir le formulaire ci-dessous pour demander un accès au portail académique.</p>
+        </div>
+        
+        <form id="requestForm" class="space-y-4">
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none" placeholder="Votre nom complet" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none" placeholder="Votre email" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-comment"></i>
+                <textarea id="message" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none" rows="4" placeholder="Votre message" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn-request w-full py-3 px-4 rounded-lg text-white font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Envoyer la demande
+            </button>
+            <div class="text-center mt-4">
+                <p class="text-sm text-gray-600">
+                    Vous possédez déjà un compte ?
+                    <a href="{% url 'Users:login-page' %}" class="text-indigo-600 hover:text-indigo-700 font-medium">
+                        Connectez-vous
+                    </a>
+                </p>
+            </div>
+        </form>
+        
+        <div class="mt-8 pt-5 border-t border-gray-200">
+            <p class="text-xs text-gray-500 text-center">
+                En soumettant ce formulaire, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !message) {
+                alert('Veuillez remplir tous les champs.');
+                return;
+            }
+            
+            const btn = document.querySelector('.btn-request');
+            const originalText = btn.textContent;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Envoi...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                alert('Demande envoyée avec succès ! (Ceci est une démonstration)');
+                // Optionally, you can reset the form here
+                document.getElementById('requestForm').reset();
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

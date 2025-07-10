@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail Virtuel Académique - Connexion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .login-container {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .login-container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .input-field:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .btn-login {
+            background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            background-image: linear-gradient(to right, #4338ca, #6d28d9);
+            transform: translateY(-2px);
+        }
+        
+        .bg-university {
+            background-image: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group i {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #64748b;
+        }
+        
+        .form-group input {
+            padding-left: 45px;
+        }
+
+        @media (max-width: 768px) {
+            .login-img {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="login-container bg-white rounded-2xl overflow-hidden flex flex-col md:flex-row max-w-4xl w-full">
+        <!-- Côté gauche - Image -->
+        <div class="login-img hidden md:block md:w-1/2 relative">
+            <div class="absolute inset-0 bg-university bg-opacity-20"></div>
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/41d6c6a4-3f49-45f9-9e9a-f5b1027cb342.png" alt="Campus universitaire animé avec architecture moderne" class="h-full w-full object-cover">
+            <div class="absolute bottom-0 left-0 p-6 text-white">
+                <h2 class="text-2xl font-bold mb-2">Bienvenue sur le Portail Académique</h2>
+                <p class="opacity-90">Votre accès aux ressources, services et informations universitaires</p>
+            </div>
+        </div>
+        
+        <!-- Côté droit - Formulaire -->
+        <div class="w-full md:w-1/2 p-8 md:p-10">
+            <div class="text-center mb-8">
+                <div class="flex justify-center mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4bf88a15-d5e5-4ea9-9467-4f5859985f54.png" alt="Logo universitaire" class="w-20 h-20 object-contain">
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Portail Académique</h1>
+                <p class="text-gray-600">Connectez-vous pour accéder à votre tableau de bord</p>
+            </div>
+                        
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="text-red-600">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+
+                <form id="loginForm" class="space-y-4" method="post" action="{% url 'Users:login' %}">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="username" id="username" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none" placeholder="Identifiant universitaire ou Email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" id="password" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none" placeholder="Mot de passe" required>
+                        <div class="flex justify-end mt-1">
+                            <a href="#" class="text-sm text-indigo-600 hover:text-indigo-700">Mot de passe oublié ?</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember" name="remember" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="remember" class="ml-2 block text-sm text-gray-700">Se souvenir de moi</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login w-full py-3 px-4 rounded-lg text-white font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Se connecter
+                    </button>
+
+                    <div class="text-center mt-4">
+                        <p class="text-sm text-gray-600">
+                            Nouveau sur le portail ? 
+                            <a href="{% url 'Users:request-access' %}" class="text-indigo-600 hover:text-indigo-700 font-medium">Demander un accès</a>
+                        </p>
+                    </div>
+                </form>
+
+
+            
+            <div class="mt-8 pt-5 border-t border-gray-200">
+                <p class="text-xs text-gray-500 text-center">
+                    En vous connectant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>
