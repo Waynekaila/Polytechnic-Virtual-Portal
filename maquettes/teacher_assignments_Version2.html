@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments | Academic Virtual Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #sidebar-overlay { display: none; }
+        @media (max-width: 767px) {
+            #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+            #sidebar.open { transform: translateX(0); box-shadow: 0 0 0 100vw rgba(0,0,0,0.4); z-index: 50; }
+            #sidebar-overlay.open {
+                display: block; position: fixed; top: 0; left: 0; width: 100vw;
+                height: 100vh; background: rgba(0,0,0,0.3); z-index: 40;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="md:hidden"></div>
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
+            <div class="px-6 py-4 flex items-center justify-between md:justify-start">
+                <div class="flex items-center gap-2">
+                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
+                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                </div>
+                <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mt-6">
+                <div class="mb-8">
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Main Menu
+                    </div>
+                    <a href="teacher_dashboard.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
+                    <a href="teacher_courses.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">My Courses</a>
+                    <a href="teacher_assignments.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Assignments</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Gradebook</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                </div>
+                <div>
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Account
+                    </div>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                </div>
+            </nav>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-auto min-h-screen">
+            <!-- Header -->
+            <header class="bg-white shadow-sm sticky top-0 z-30">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-900">Assignments</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="far fa-bell text-xl"></i>
+                        </button>
+                        <div class="relative">
+                            <img src="https://placehold.co/40x40" alt="Teacher profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Assignments Page Content -->
+            <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
+                    <div>
+                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">All Assignments</h2>
+                        <p class="text-gray-500 text-sm">Manage and grade assignments for your courses</p>
+                    </div>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                        <i class="fas fa-plus mr-2"></i>Create Assignment
+                    </button>
+                </div>
+                <!-- Filter/Search Bar -->
+                <div class="bg-white shadow rounded-lg p-4 mb-6 flex flex-col md:flex-row gap-4 md:items-center">
+                    <div class="flex flex-1 gap-2">
+                        <input type="text" placeholder="Search assignments..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                        <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            <option>All Courses</option>
+                            <option>AI Fundamentals</option>
+                            <option>English 204</option>
+                            <option>Data Structures</option>
+                        </select>
+                        <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            <option>Status: All</option>
+                            <option>Pending</option>
+                            <option>In Progress</option>
+                            <option>Graded</option>
+                        </select>
+                    </div>
+                    <button class="inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none">
+                        <i class="fas fa-filter mr-1"></i>Filter
+                    </button>
+                </div>
+                <!-- Assignments Table -->
+                <div class="bg-white shadow rounded-lg overflow-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignment</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Submissions</th>
+                                <th class="px-6 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-sm">
+                            <tr>
+                                <td class="px-6 py-4">
+                                    <div class="font-medium text-gray-900">Project Proposal</div>
+                                </td>
+                                <td class="px-6 py-4">AI Fundamentals</td>
+                                <td class="px-6 py-4">Jul 18, 2025</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Pending</span>
+                                </td>
+                                <td class="px-6 py-4">12 / 45</td>
+                                <td class="px-6 py-4 flex gap-2">
+                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>View</a>
+                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Edit</a>
+                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Grade</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4">
+                                    <div class="font-medium text-gray-900">Midterm Essay</div>
+                                </td>
+                                <td class="px-6 py-4">English 204</td>
+                                <td class="px-6 py-4">Jul 22, 2025</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">In Progress</span>
+                                </td>
+                                <td class="px-6 py-4">8 / 32</td>
+                                <td class="px-6 py-4 flex gap-2">
+                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>View</a>
+                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Edit</a>
+                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Grade</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4">
+                                    <div class="font-medium text-gray-900">Lab 4: Data Structures</div>
+                                </td>
+                                <td class="px-6 py-4">Data Structures</td>
+                                <td class="px-6 py-4">Jul 25, 2025</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Graded</span>
+                                </td>
+                                <td class="px-6 py-4">15 / 43</td>
+                                <td class="px-6 py-4 flex gap-2">
+                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>View</a>
+                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Edit</a>
+                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Grade</a>
+                                </td>
+                            </tr>
+                            <!-- More assignment rows can be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        // Sidebar open/close for mobile
+        const openSidebar = document.getElementById('open-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        function openSidebarMenu() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+        }
+        function closeSidebarMenu() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+        if(openSidebar) openSidebar.onclick = openSidebarMenu;
+        if(closeSidebar) closeSidebar.onclick = closeSidebarMenu;
+        if(overlay) overlay.onclick = closeSidebarMenu;
+        // Accessibility: close on ESC
+        document.addEventListener('keydown', function(e){
+            if(e.key === "Escape") closeSidebarMenu();
+        });
+    </script>
+</body>
+</html>

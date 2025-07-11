@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | Academic Virtual Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #sidebar-overlay { display: none; }
+        @media (max-width: 767px) {
+            #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+            #sidebar.open { transform: translateX(0); box-shadow: 0 0 0 100vw rgba(0,0,0,0.4); z-index: 50; }
+            #sidebar-overlay.open {
+                display: block; position: fixed; top: 0; left: 0; width: 100vw;
+                height: 100vh; background: rgba(0,0,0,0.3); z-index: 40;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="md:hidden"></div>
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
+            <div class="px-6 py-4 flex items-center justify-between md:justify-start">
+                <div class="flex items-center gap-2">
+                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
+                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                </div>
+                <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mt-6">
+                <div class="mb-8">
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Main Menu
+                    </div>
+                    <a href="teacher_dashboard.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
+                    <a href="teacher_courses.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">My Courses</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Assignments</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Gradebook</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                </div>
+                <div>
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Account
+                    </div>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                </div>
+            </nav>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-auto min-h-screen">
+            <!-- Header -->
+            <header class="bg-white shadow-sm sticky top-0 z-30">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-900">My Courses</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="far fa-bell text-xl"></i>
+                        </button>
+                        <div class="relative">
+                            <img src="https://placehold.co/40x40" alt="Teacher profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Courses List Content -->
+            <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
+                    <div>
+                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Courses Taught This Term</h2>
+                        <p class="text-gray-500 text-sm">Overview of your current teaching load</p>
+                    </div>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                        <i class="fas fa-plus mr-2"></i>Add New Course
+                    </button>
+                </div>
+                <!-- Responsive Courses Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Course Card -->
+                    <div class="bg-white shadow rounded-lg p-6 flex flex-col">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-2xl">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">AI Fundamentals</h3>
+                                <span class="text-xs text-gray-500">CS101 • 45 students</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4 flex-1">Introduction to artificial intelligence, covering core concepts and real-world applications.</p>
+                        <div class="flex flex-wrap items-center gap-2 text-xs mb-4">
+                            <span class="inline-flex items-center bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-calendar-alt mr-1"></i> Mon & Wed
+                            </span>
+                            <span class="inline-flex items-center bg-green-50 text-green-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-clock mr-1"></i> 10:00-11:30
+                            </span>
+                        </div>
+                        <div class="flex justify-end gap-2">
+                            <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>View</a>
+                            <a href="#" class="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Edit</a>
+                        </div>
+                    </div>
+                    <!-- Course Card -->
+                    <div class="bg-white shadow rounded-lg p-6 flex flex-col">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-yellow-100 text-yellow-600 rounded-full w-12 h-12 flex items-center justify-center text-2xl">
+                                <i class="fas fa-pen-nib"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">English 204</h3>
+                                <span class="text-xs text-gray-500">ENG204 • 32 students</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4 flex-1">Intermediate composition and literature, focusing on essay writing and analysis.</p>
+                        <div class="flex flex-wrap items-center gap-2 text-xs mb-4">
+                            <span class="inline-flex items-center bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-calendar-alt mr-1"></i> Tue & Thu
+                            </span>
+                            <span class="inline-flex items-center bg-green-50 text-green-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-clock mr-1"></i> 13:00-14:30
+                            </span>
+                        </div>
+                        <div class="flex justify-end gap-2">
+                            <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>View</a>
+                            <a href="#" class="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Edit</a>
+                        </div>
+                    </div>
+                    <!-- Course Card -->
+                    <div class="bg-white shadow rounded-lg p-6 flex flex-col">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-green-100 text-green-600 rounded-full w-12 h-12 flex items-center justify-center text-2xl">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Data Structures</h3>
+                                <span class="text-xs text-gray-500">CS202 • 43 students</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4 flex-1">Comprehensive study of data organization, manipulation, and storage techniques.</p>
+                        <div class="flex flex-wrap items-center gap-2 text-xs mb-4">
+                            <span class="inline-flex items-center bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-calendar-alt mr-1"></i> Mon, Wed & Fri
+                            </span>
+                            <span class="inline-flex items-center bg-green-50 text-green-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-clock mr-1"></i> 09:00-09:50
+                            </span>
+                        </div>
+                        <div class="flex justify-end gap-2">
+                            <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>View</a>
+                            <a href="#" class="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Edit</a>
+                        </div>
+                    </div>
+                    <!-- Additional course cards can be added here -->
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        // Sidebar open/close for mobile
+        const openSidebar = document.getElementById('open-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function openSidebarMenu() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+        }
+        function closeSidebarMenu() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+        if(openSidebar) openSidebar.onclick = openSidebarMenu;
+        if(closeSidebar) closeSidebar.onclick = closeSidebarMenu;
+        if(overlay) overlay.onclick = closeSidebarMenu;
+
+        // Accessibility: close on ESC
+        document.addEventListener('keydown', function(e){
+            if(e.key === "Escape") closeSidebarMenu();
+        });
+    </script>
+</body>
+</html>

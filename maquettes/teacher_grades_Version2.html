@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradebook | Academic Virtual Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #sidebar-overlay { display: none; }
+        @media (max-width: 767px) {
+            #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+            #sidebar.open { transform: translateX(0); box-shadow: 0 0 0 100vw rgba(0,0,0,0.4); z-index: 50; }
+            #sidebar-overlay.open {
+                display: block; position: fixed; top: 0; left: 0; width: 100vw;
+                height: 100vh; background: rgba(0,0,0,0.3); z-index: 40;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="md:hidden"></div>
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
+            <div class="px-6 py-4 flex items-center justify-between md:justify-start">
+                <div class="flex items-center gap-2">
+                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
+                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                </div>
+                <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mt-6">
+                <div class="mb-8">
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Main Menu
+                    </div>
+                    <a href="teacher_dashboard.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
+                    <a href="teacher_courses.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">My Courses</a>
+                    <a href="teacher_assignments.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Assignments</a>
+                    <a href="teacher_grades.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Gradebook</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                </div>
+                <div>
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Account
+                    </div>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                </div>
+            </nav>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-auto min-h-screen">
+            <!-- Header -->
+            <header class="bg-white shadow-sm sticky top-0 z-30">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-900">Gradebook</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="far fa-bell text-xl"></i>
+                        </button>
+                        <div class="relative">
+                            <img src="https://placehold.co/40x40" alt="Teacher profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Gradebook Content -->
+            <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
+                    <div>
+                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Course Gradebook</h2>
+                        <p class="text-gray-500 text-sm">View and update grades for your students</p>
+                    </div>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                        <i class="fas fa-file-export mr-2"></i>Export Gradebook
+                    </button>
+                </div>
+                <!-- Filter/Search Bar -->
+                <div class="bg-white shadow rounded-lg p-4 mb-6 flex flex-col md:flex-row gap-4 md:items-center">
+                    <div class="flex flex-1 gap-2">
+                        <input type="text" placeholder="Search students..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                        <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            <option>All Courses</option>
+                            <option>AI Fundamentals</option>
+                            <option>English 204</option>
+                            <option>Data Structures</option>
+                        </select>
+                        <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                            <option>All Assignments</option>
+                            <option>Project Proposal</option>
+                            <option>Midterm Essay</option>
+                            <option>Lab 4</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Gradebook Table -->
+                <div class="bg-white shadow rounded-lg overflow-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Proposal</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Midterm Essay</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lab 4</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Average</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feedback</th>
+                                <th class="px-6 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-sm">
+                            <tr>
+                                <td class="px-6 py-4 font-medium text-gray-900 flex items-center gap-2">
+                                    <span class="inline-block w-8 h-8 rounded-full bg-blue-200 text-blue-700 flex items-center justify-center font-bold">A</span>
+                                    Alice Johnson
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="92%" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="88%" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="91%" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4 font-semibold">90%</td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="Great work!" class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Save</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-medium text-gray-900 flex items-center gap-2">
+                                    <span class="inline-block w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-bold">B</span>
+                                    Bob Lee
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="85%" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="90%" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="93%" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4 font-semibold">89%</td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="Consistent performance." class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Save</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-medium text-gray-900 flex items-center gap-2">
+                                    <span class="inline-block w-8 h-8 rounded-full bg-yellow-200 text-yellow-700 flex items-center justify-center font-bold">C</span>
+                                    Cara Smith
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="95%" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="--" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="--" class="w-16 rounded-md border-gray-300 text-center focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4 font-semibold">95%</td>
+                                <td class="px-6 py-4">
+                                    <input type="text" value="" placeholder="Feedback..." class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Save</button>
+                                </td>
+                            </tr>
+                            <!-- Add more students/assignments as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        // Sidebar open/close for mobile
+        const openSidebar = document.getElementById('open-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        function openSidebarMenu() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+        }
+        function closeSidebarMenu() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+        if(openSidebar) openSidebar.onclick = openSidebarMenu;
+        if(closeSidebar) closeSidebar.onclick = closeSidebarMenu;
+        if(overlay) overlay.onclick = closeSidebarMenu;
+        // Accessibility: close on ESC
+        document.addEventListener('keydown', function(e){
+            if(e.key === "Escape") closeSidebarMenu();
+        });
+    </script>
+</body>
+</html>
