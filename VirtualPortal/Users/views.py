@@ -11,6 +11,14 @@ from .models import *
 
 
 def index(request):
+    if request.user.is_authenticated:
+        user = request.user  # Définir l'utilisateur ici
+
+        if user.groups.filter(name='Etudiants').exists():
+            return redirect('Dashboard:student')
+        else:
+            return redirect('Dashboard:teacher')
+
     return render(request, 'Users/login.html')
 
 def login_view(request):
@@ -30,7 +38,7 @@ def login_view(request):
 
                 return redirect('Dashboard:student')
             else:
-                return redirect('Dashboard:teacher')  # À ajuster si besoin selon le groupe
+                return redirect('Dashboard:teacher')  
         else:
             messages.error(request, "Identifiant ou mot de passe invalide.")
 

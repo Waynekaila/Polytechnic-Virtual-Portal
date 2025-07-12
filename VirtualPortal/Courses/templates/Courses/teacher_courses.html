@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | Academic Virtual Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #sidebar-overlay { display: none; }
+        @media (max-width: 767px) {
+            #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+            #sidebar.open { transform: translateX(0); box-shadow: 0 0 0 100vw rgba(0,0,0,0.4); z-index: 50; }
+            #sidebar-overlay.open {
+                display: block; position: fixed; top: 0; left: 0; width: 100vw;
+                height: 100vh; background: rgba(0,0,0,0.3); z-index: 40;
+            }
+        }
+        /* Modal styles */
+        .modal-bg {
+            background: rgba(0,0,0,0.4);
+        }
+        .modal {
+            display: none;
+        }
+        .modal.open {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="md:hidden"></div>
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
+            <div class="px-6 py-4 flex items-center justify-between md:justify-start">
+                <div class="flex items-center gap-2">
+                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
+                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                </div>
+                <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mt-6">
+                <div class="mb-8">
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Main Menu
+                    </div>
+                    <a href="{% url 'Dashboard:teacher' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
+                    <a href="teacher_courses.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">My Courses</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Assignments</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Gradebook</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                </div>
+                <div>
+                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Account
+                    </div>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
+                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                </div>
+            </nav>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-auto min-h-screen">
+            <!-- Header -->
+            <header class="bg-white shadow-sm sticky top-0 z-30">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-900">My Courses</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="far fa-bell text-xl"></i>
+                        </button>
+                        <div class="relative">
+                            <img src="https://placehold.co/40x40" alt="Teacher profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN MODAL FOR ADDING COURSE -->
+            <div id="add-course-modal" class="modal fixed z-50 inset-0 items-center justify-center modal-bg">
+                <form method="post" action="{% url 'Courses:add_course' %}" class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-auto relative animate-fade-in">
+                    {% csrf_token %}
+                    <button id="close-modal" type="button" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl focus:outline-none" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h2 class="text-lg font-bold mb-4 text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-plus text-blue-600"></i> Add New Course
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-1">Course Title</label>
+                            <input type="text" name="title" class="w-full border rounded-md px-3 py-2 focus:ring focus:ring-blue-100 outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-1">Course Code</label>
+                            <input type="text" name="code" class="w-full border rounded-md px-3 py-2 focus:ring focus:ring-blue-100 outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-1">Credits</label>
+                            <input type="number" name="credits" class="w-full border rounded-md px-3 py-2 focus:ring focus:ring-blue-100 outline-none" required min="1" max="10">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-1">Description</label>
+                            <textarea name="description" rows="3" class="w-full border rounded-md px-3 py-2 focus:ring focus:ring-blue-100 outline-none" required></textarea>
+                        </div>
+                        <div class="flex justify-end pt-2">
+                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none">
+                                <i class="fas fa-check mr-1"></i>Save Course
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- END MODAL -->
+
+            <!-- Main Courses List Content -->
+            <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
+                    <div>
+                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Courses Taught This Term</h2>
+                        <p class="text-gray-500 text-sm">Overview of your current teaching load</p>
+                    </div>
+                    <!-- UNLOCKED: Add New Course Button -->
+                    <button id="open-modal-btn" type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                        <i class="fas fa-plus mr-2"></i>Add New Course
+                    </button>
+                </div>
+                <!-- Responsive Courses Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for cour in cours %}
+                    <div class="bg-white shadow rounded-lg p-6 flex flex-col">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-yellow-100 text-yellow-600 rounded-full w-12 h-12 flex items-center justify-center text-2xl">
+                                <i class="fas fa-pen-nib"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">{{ cour.title }}</h3>
+                                <span class="text-xs text-gray-500">
+                                    {{ cour.code }} • Dr. Adams • {{ cour.credits }} crédits
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4 flex-1">{{ cour.description|truncatechars:100 }}</p>
+                        <div class="flex flex-wrap items-center gap-2 text-xs mb-4">
+                            <span class="inline-flex items-center bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-calendar-alt mr-1"></i> Tue &amp; Thu
+                            </span>
+                            <span class="inline-flex items-center bg-green-50 text-green-600 px-2 py-1 rounded-full">
+                                <i class="fas fa-clock mr-1"></i> 13:00-14:30
+                            </span>
+                        </div>
+                        <div class="flex justify-end gap-2">
+                            <a href="{% url 'Courses:le_cours' cour.id %}" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">
+                                <i class="fas fa-book-open mr-1"></i>Go to Course
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        // Sidebar open/close for mobile
+        const openSidebar = document.getElementById('open-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function openSidebarMenu() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+        }
+        function closeSidebarMenu() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+        if(openSidebar) openSidebar.onclick = openSidebarMenu;
+        if(closeSidebar) closeSidebar.onclick = closeSidebarMenu;
+        if(overlay) overlay.onclick = closeSidebarMenu;
+
+        // Accessibility: close on ESC
+        document.addEventListener('keydown', function(e){
+            if(e.key === "Escape") closeSidebarMenu();
+        });
+
+        // Modal logic
+        const modal = document.getElementById('add-course-modal');
+        const openModalBtn = document.getElementById('open-modal-btn');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        function openModal() {
+            modal.classList.add('open');
+            document.body.classList.add('overflow-hidden');
+        }
+        function closeModal() {
+            modal.classList.remove('open');
+            document.body.classList.remove('overflow-hidden');
+        }
+        if(openModalBtn) openModalBtn.onclick = openModal;
+        if(closeModalBtn) closeModalBtn.onclick = closeModal;
+        // Close modal when clicking outside the modal content
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        // Accessibility: close modal on ESC
+        document.addEventListener('keydown', function(e){
+            if(e.key === "Escape") closeModal();
+        });
+    </script>
+</body>
+</html>

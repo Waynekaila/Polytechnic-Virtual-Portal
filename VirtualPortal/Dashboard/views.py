@@ -1,6 +1,5 @@
 from django.shortcuts import *
 from django.contrib.auth.decorators import *
-
 from django.http import HttpResponse
 from django.template import loader
 from .models import *

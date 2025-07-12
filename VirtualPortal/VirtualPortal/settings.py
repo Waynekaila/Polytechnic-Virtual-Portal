@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'sslserver',
     'Users',
     'Dashboard',
+    'Courses'
 ]
 
 MIDDLEWARE = [
@@ -58,14 +59,14 @@ ROOT_URLCONF = 'VirtualPortal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],  # Pour les templates globaux
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',  # ⚠️ obligatoire pour admin sidebar
+                'django.contrib.auth.context_processors.auth',  # ⚠️ obligatoire pour le back-office admin
+                'django.contrib.messages.context_processors.messages',  # ⚠️ idem
             ],
         },
     },
@@ -125,6 +126,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'VirtualPortal/static'),
+    BASE_DIR / "static",
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
