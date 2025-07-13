@@ -24,40 +24,52 @@
     <div id="sidebar-overlay" class="md:hidden"></div>
     <div class="flex min-h-screen">
         <!-- Sidebar Navigation -->
-        <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
-            <div class="px-6 py-4 flex items-center justify-between md:justify-start">
-                <div class="flex items-center gap-2">
-                    <img src="{% static 'img/logo.png' %}" alt="Minimalist university logo with academic hat icon in blue" class="logo-img">
-                    
-                </div>
-                <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <nav class="mt-6">
-                <div class="mb-8">
-                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Menu Principal
-                    </div>
-                    <a href="{% url 'Dashboard:dashboard' %}" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Tableau de bord</a>
-                    <a href="{% url 'Annonces:annonces' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Annonces</a>
-                    <a href="{% url 'Courses:cours' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Cours</a>
-                    <a href="{% url 'Assignments:assignments' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Devoirs</a>
-                    <a href="{% url 'Grades:grade' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Notes</a>
-                    <a href="{% url 'Calendar:calendar' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendrier</a>
-                    <a href="{% url 'Resources:resources' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Ressources</a>
-                </div>
-                <div>
-                    <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Compte
-                    </div>
-                    <a href="student_settings.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Paramètres</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
-                    <a href="{% url 'Users:logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Déconnexion</a>
-                </div>
-            </nav>
-        </nav>
+        <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-[#8CACD3] shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
 
+        <div class="px-6 py-4 flex items-center justify-between md:justify-start bg-[#B8CBD0]">
+
+            <div class="flex items-center gap-2">
+                <img src="{% static 'img/logo.png' %}" alt="Minimalist university logo with academic hat icon in blue" class="logo-img">
+            </div>
+            <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <nav class="mt-6">
+            <div class="mb-8">
+                <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Menu Principal
+                </div>
+
+                <a href="{% url 'Dashboard:dashboard' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Dashboard' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Tableau de bord</a>
+
+                <a href="{% url 'Annonces:annonces' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Annonces' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Annonces</a>
+
+                <a href="{% url 'Courses:cours' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Courses' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Cours</a>
+
+                <a href="{% url 'Assignments:assignments' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Assignments' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Devoirs</a>
+
+                <a href="{% url 'Grades:grade' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Grades' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Notes</a>
+
+                <a href="{% url 'Calendar:calendar' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Calendar' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Calendrier</a>
+
+                <a href="{% url 'Resources:resources' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Resources' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Ressources</a>
+            </div>
+
+            <div>
+                <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Compte
+                </div>
+
+                <a href="{% url 'Profiles:profile' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Profiles' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Paramètres</a>
+
+                <a href="{% url 'Support:support' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Support' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Support</a>
+
+                <a href="{% url 'Users:logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Déconnexion</a>
+            </div>
+        </nav>
+    </nav>
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-auto min-h-screen">
             <!-- Header -->

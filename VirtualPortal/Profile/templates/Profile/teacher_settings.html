@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres | Portail Virtuel Académique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #sidebar-overlay { display: none; }
+        @media (max-width: 767px) {
+            #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+            #sidebar.open { transform: translateX(0); box-shadow: 0 0 0 100vw rgba(0,0,0,0.4); z-index: 50; }
+            #sidebar-overlay.open {
+                display: block; position: fixed; top: 0; left: 0; width: 100vw;
+                height: 100vh; background: rgba(0,0,0,0.3); z-index: 40;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Overlay pour mobile -->
+    <div id="sidebar-overlay" class="md:hidden"></div>
+    <div class="flex min-h-screen">
+        <!-- Navigation latérale -->
+        <nav id="sidebar" class="fixed md:static top-0 left-0 h-screen w-64 bg-[#8CACD3] shadow-md z-50 flex flex-col">
+
+            <div class="h-16 px-6 flex items-center justify-between bg-[#B8CBD0]">
+                <div class="flex items-center gap-2">
+                    <img src="{% static 'img/logo.png' %}" alt="Logo minimaliste de l'université" class="logo-img w-10 h-10 object-contain">
+                </div>
+                <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto">
+                <nav class="flex flex-col justify-between h-full">
+                    <div class="mb-8">
+                        <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Menu Principal</div>
+
+                        <a href="{% url 'Dashboard:dashboard' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Dashboard' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Tableau de bord</a>
+
+                        <a href="{% url 'Annonces:annonces' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Annonces' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Annonces</a>
+
+                        <a href="{% url 'Courses:cours' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Courses' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Cours</a>
+
+                        <a href="{% url 'Assignments:assignments' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Assignments' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Devoirs</a>
+
+                        <a href="{% url 'Grades:grade' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Grades' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Notes</a>
+
+                        <a href="{% url 'Calendar:calendar' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Calendar' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Calendrier</a>
+
+                        <a href="{% url 'Resources:resources' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Resources' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Ressources</a>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Compte</div>
+
+                        <a href="{% url 'Profiles:profile' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Profiles' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Paramètres</a>
+
+                        <a href="{% url 'Support:support' %}" class="block px-6 py-2 rounded-r-full {% if request.resolver_match.app_name == 'Support' %}bg-[#7D4FFE] text-[#0B162C] font-semibold{% else %}text-gray-600 hover:bg-gray-100{% endif %}">Support</a>
+
+                        <a href="{% url 'Users:logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Déconnexion</a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        <!-- Contenu principal -->
+        <div class="flex-1 flex flex-col overflow-auto min-h-screen">
+            <!-- En-tête -->
+            <header class="bg-white shadow-sm sticky top-0 z-30">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Ouvrir le menu">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-900">Paramètres</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="far fa-bell text-xl"></i>
+                        </button>
+                        <div class="relative">
+                            <img src="https://placehold.co/40x40" alt="Photo de profil" class="rounded-full w-8 h-8 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Contenu Paramètres -->
+            <main class="max-w-3xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
+                <div class="bg-white shadow rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-bold text-gray-900 mb-4">Informations du profil</h2>
+    <form class="space-y-4">
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" value="John">
+            </div>
+            <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" value="Doe">
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Adresse e-mail</label>
+            <input type="email" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" value="john.doe@university.edu">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Identifiant de la faculté</label>
+            <input type="text" class="w-full border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed" value="TCH20253001" disabled>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Photo de profil</label>
+            <div class="flex items-center gap-4">
+                <img src="https://placehold.co/80x80" alt="Profil" class="rounded-full w-16 h-16">
+                <button type="button" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">Changer</button>
+            </div>
+        </div>
+        <div class="flex justify-end">
+            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium">Enregistrer les modifications</button>
+        </div>
+    </form>
+</div>
+
+                <div class="bg-white shadow rounded-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Sécurité du Compte</h2>
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Changer le mot de passe</label>
+                            <input type="password" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Nouveau mot de passe">
+                        </div>
+                        <div>
+                            <input type="password" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Confirmer le nouveau mot de passe">
+                        </div>
+                        <div class="flex items-center">
+                            <input id="2fa" type="checkbox" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <label for="2fa" class="ml-2 block text-sm text-gray-700">Activer la double authentification</label>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium">Mettre à jour la sécurité</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="bg-white shadow rounded-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Préférences de Notification</h2>
+                    <form class="space-y-3">
+                        <div class="flex items-center">
+                            <input id="notif1" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                            <label for="notif1" class="ml-2 block text-sm text-gray-700">Rappels et dates limites des devoirs</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="notif2" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                            <label for="notif2" class="ml-2 block text-sm text-gray-700">Nouvelles notes publiées</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="notif3" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="notif3" class="ml-2 block text-sm text-gray-700">Annonces et actualités</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="notif4" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="notif4" class="ml-2 block text-sm text-gray-700">Mises à jour du contenu de cours</label>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium">Enregistrer les préférences</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="bg-white shadow rounded-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Zone de Danger</h2>
+                    <div class="flex flex-col gap-3">
+                        <button class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-medium w-full sm:w-auto">Supprimer le compte</button>
+                        <span class="text-sm text-gray-500">Cette action est irréversible. Vos données et dossiers académiques seront supprimés de manière permanente.</span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        const openSidebar = document.getElementById('open-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function openSidebarMenu() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+        }
+
+        function closeSidebarMenu() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+
+        if (openSidebar) openSidebar.onclick = openSidebarMenu;
+        if (closeSidebar) closeSidebar.onclick = closeSidebarMenu;
+        if (overlay) overlay.onclick = closeSidebarMenu;
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") closeSidebarMenu();
+        });
+    </script>
+</body>
+</html>

@@ -22,13 +22,15 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Users.urls')),
-    path('dashboard/', include('Dashboard.urls')),
-    path('courses', include('Courses.urls')),
-    path('grades', include('Grades.urls')),
-    path('calendar', include('Calendar.urls')),
-    path('resources', include('Resources.urls')),
-    path('annonces', include('Annonces.urls')),
-    path('devoir', include('Assignments.urls')),
+    path('Dashboard/', include('Dashboard.urls')),
+    path('Cours', include('Courses.urls')),
+    path('Resultats', include('Grades.urls')),
+    path('Calendrier', include('Calendar.urls')),
+    path('Ressources', include('Resources.urls')),
+    path('Annonces', include('Annonces.urls')),
+    path('Devoirs', include('Assignments.urls')),
+    path('MonProfile/', include('Profile.urls')),
+    path('Support/', include('Support.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
