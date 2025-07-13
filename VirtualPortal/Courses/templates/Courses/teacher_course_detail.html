@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Details | Academic Virtual Portal</title>
+    <title>Détails du cours | Portail Virtuel Académique</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,8 +27,8 @@
         <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
             <div class="px-6 py-4 flex items-center justify-between md:justify-start">
                 <div class="flex items-center gap-2">
-                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
-                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                    <img src="{% static 'img/logo.png' %}" alt="Minimalist university logo with academic hat icon in blue" class="logo-img">
+                    
                 </div>
                 <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
                     <i class="fas fa-times"></i>
@@ -36,22 +37,23 @@
             <nav class="mt-6">
                 <div class="mb-8">
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Main Menu
+                        Menu Principal
                     </div>
-                    <a href="teacher_dashboard.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
-                    <a href="teacher_courses.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">My Courses</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Assignments</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Gradebook</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                    <a href="{% url 'Dashboard:dashboard' %}" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Tableau de bord</a>
+                    <a href="{% url 'Annonces:annonces' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Annonces</a>
+                    <a href="{% url 'Courses:cours' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Cours</a>
+                    <a href="{% url 'Assignments:assignments' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Devoirs</a>
+                    <a href="{% url 'Grades:grade' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Notes</a>
+                    <a href="{% url 'Calendar:calendar' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendrier</a>
+                    <a href="{% url 'Resources:resources' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Ressources</a>
                 </div>
                 <div>
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Account
+                        Compte
                     </div>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="student_settings.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Paramètres</a>
                     <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                    <a href="{% url 'Users:logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Déconnexion</a>
                 </div>
             </nav>
         </nav>
@@ -65,14 +67,14 @@
                         <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
                             <i class="fas fa-bars"></i>
                         </button>
-                        <h1 class="text-xl font-semibold text-gray-900">Course Details</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Détails du cours</h1>
                     </div>
                     <div class="flex items-center space-x-4">
                         <button class="text-gray-500 hover:text-gray-700">
                             <i class="far fa-bell text-xl"></i>
                         </button>
                         <div class="relative">
-                            <img src="https://placehold.co/40x40" alt="Teacher profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                            <img src="https://placehold.co/40x40" alt="Photo de profil enseignant" class="rounded-full w-8 h-8 cursor-pointer">
                         </div>
                     </div>
                 </div>
@@ -81,58 +83,58 @@
             <!-- Course Detail Content -->
             <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
                 <div class="bg-white shadow rounded-lg p-6 mb-6 flex flex-col lg:flex-row gap-8">
-                    <!-- Course Info -->
+                    <!-- Informations sur le cours -->
                     <div class="flex-shrink-0 flex flex-col items-center lg:items-start lg:w-64">
                         <div class="bg-blue-100 text-blue-600 rounded-full w-24 h-24 flex items-center justify-center text-5xl mb-4">
                             <i class="fas fa-laptop-code"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">AI Fundamentals</h2>
-                        <div class="mb-2 text-gray-500 text-sm">CS101 • 3 credits</div>
-                        <div class="mb-2 text-gray-700 text-sm font-medium">Schedule: <span class="text-gray-900">Mon & Wed, 10:00-11:30</span></div>
-                        <div class="mb-2 text-gray-700 text-sm font-medium">Location: <span class="text-gray-900">Room 201, Main Building</span></div>
-                        <div class="mb-2 text-gray-700 text-sm font-medium">Enrolled Students: <span class="text-gray-900">45</span></div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Fondamentaux de l'IA</h2>
+                        <div class="mb-2 text-gray-500 text-sm">CS101 • 3 crédits</div>
+                        <div class="mb-2 text-gray-700 text-sm font-medium">Emploi du temps : <span class="text-gray-900">Lun & Mer, 10:00-11:30</span></div>
+                        <div class="mb-2 text-gray-700 text-sm font-medium">Lieu : <span class="text-gray-900">Salle 201, Bâtiment principal</span></div>
+                        <div class="mb-2 text-gray-700 text-sm font-medium">Étudiants inscrits : <span class="text-gray-900">45</span></div>
                         <div class="mt-4 flex gap-2">
-                            <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-user-graduate mr-1"></i>View Roster</a>
+                            <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-user-graduate mr-1"></i>Voir la liste</a>
                         </div>
                     </div>
-                    <!-- Course Description and Tabs -->
+                    <!-- Description du cours et onglets -->
                     <div class="flex-1 flex flex-col">
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Course Description</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Description du cours</h3>
                             <p class="text-gray-700 mb-4">
-                                This course introduces the fundamental concepts of artificial intelligence, including problem-solving, knowledge representation, reasoning, machine learning, and real-world applications. Students will participate in hands-on projects and explore ethical issues related to AI.
+                                Ce cours introduit les concepts fondamentaux de l'intelligence artificielle, y compris la résolution de problèmes, la représentation des connaissances, le raisonnement, l'apprentissage automatique et les applications réelles. Les étudiants participeront à des projets pratiques et exploreront les questions éthiques liées à l'IA.
                             </p>
                         </div>
                         <!-- Tabs -->
                         <div>
                             <div class="border-b border-gray-200 flex gap-2 mb-4 overflow-x-auto">
-                                <button class="tablink border-b-2 border-blue-600 text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="assignments">Assignments</button>
-                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="announcements">Announcements</button>
-                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="grades">Gradebook</button>
-                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="materials">Materials</button>
-                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="students">Students</button>
+                                <button class="tablink border-b-2 border-blue-600 text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="assignments">Devoirs</button>
+                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="announcements">Annonces</button>
+                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="grades">Carnet de notes</button>
+                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="materials">Matériels</button>
+                                <button class="tablink border-b-2 border-transparent text-gray-500 hover:text-blue-600 px-4 py-2 text-sm font-medium focus:outline-none" data-tab="students">Étudiants</button>
                             </div>
                             <!-- Tab Content -->
                             <div id="tab-assignments" class="tabcontent">
                                 <div class="flex justify-between items-center mb-2">
-                                    <h4 class="text-md font-semibold text-gray-800">Assignments</h4>
-                                    <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-plus mr-1"></i>Create Assignment</a>
+                                    <h4 class="text-md font-semibold text-gray-800">Devoirs</h4>
+                                    <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-plus mr-1"></i>Créer un devoir</a>
                                 </div>
                                 <ul class="divide-y divide-gray-200">
                                     <li class="py-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
                                         <div>
-                                            <div class="font-medium text-gray-900">Project Proposal</div>
-                                            <div class="text-gray-500 text-sm">Due: Jul 18 • 12/45 submitted</div>
+                                            <div class="font-medium text-gray-900">Proposition de projet</div>
+                                            <div class="text-gray-500 text-sm">À rendre : 18 juil. • 12/45 remis</div>
                                         </div>
                                         <div class="flex gap-2">
-                                            <a href="#" class="inline-block bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Grade</a>
-                                            <a href="#" class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Edit</a>
+                                            <a href="#" class="inline-block bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Noter</a>
+                                            <a href="#" class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Modifier</a>
                                         </div>
                                     </li>
                                     <li class="py-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
                                         <div>
                                             <div class="font-medium text-gray-900">Quiz 2</div>
-                                            <div class="text-gray-500 text-sm">Due: Jul 22 • 8/45 submitted</div>
+                                            <div class="text-gray-500 text-sm">À rendre : 22 juil. • 8/45 remis</div>
                                         </div>
                                         <div class="flex gap-2">
                                             <a href="#" class="inline-block bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Grade</a>
@@ -141,8 +143,8 @@
                                     </li>
                                     <li class="py-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
                                         <div>
-                                            <div class="font-medium text-gray-900">Lab 4: Search Algorithms</div>
-                                            <div class="text-gray-500 text-sm">Due: Jul 25 • 15/45 submitted</div>
+                                            <div class="font-medium text-gray-900">TP 4 : Algorithmes de recherche</div>
+                                            <div class="text-gray-500 text-sm">À rendre : 25 juil. • 15/45 remis</div>
                                         </div>
                                         <div class="flex gap-2">
                                             <a href="#" class="inline-block bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Grade</a>
@@ -153,34 +155,34 @@
                             </div>
                             <div id="tab-announcements" class="tabcontent hidden">
                                 <div class="flex justify-between items-center mb-2">
-                                    <h4 class="text-md font-semibold text-gray-800">Announcements</h4>
-                                    <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-bullhorn mr-1"></i>New Announcement</a>
+                                    <h4 class="text-md font-semibold text-gray-800">Annonces</h4>
+                                    <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-bullhorn mr-1"></i>Nouvelle annonce</a>
                                 </div>
                                 <ul class="divide-y divide-gray-200">
                                     <li class="py-3">
-                                        <div class="font-medium text-gray-900">Guest lecture on AI Ethics this Friday</div>
-                                        <div class="text-gray-500 text-sm">2 days ago</div>
+                                        <div class="font-medium text-gray-900">Conférence invitée sur l'éthique de l'IA ce vendredi</div>
+                                        <div class="text-gray-500 text-sm">il y a 2 jours</div>
                                     </li>
                                     <li class="py-3">
-                                        <div class="font-medium text-gray-900">Assignment 2 deadline extended to July 20</div>
-                                        <div class="text-gray-500 text-sm">4 days ago</div>
+                                        <div class="font-medium text-gray-900">Date limite du devoir 2 reportée au 20 juillet</div>
+                                        <div class="text-gray-500 text-sm">il y a 4 jours</div>
                                     </li>
                                     <li class="py-3">
-                                        <div class="font-medium text-gray-900">Welcome to AI Fundamentals!</div>
-                                        <div class="text-gray-500 text-sm">1 week ago</div>
+                                        <div class="font-medium text-gray-900">Bienvenue dans Fondamentaux de l'IA !</div>
+                                        <div class="text-gray-500 text-sm">il y a 1 semaine</div>
                                     </li>
                                 </ul>
                             </div>
                             <div id="tab-grades" class="tabcontent hidden">
-                                <h4 class="text-md font-semibold text-gray-800 mb-2">Gradebook</h4>
+                                <h4 class="text-md font-semibold text-gray-800 mb-2">Carnet de notes</h4>
                                 <table class="w-full text-sm mb-4">
                                     <thead>
                                         <tr class="text-left text-gray-700 border-b">
-                                            <th class="py-2">Student</th>
-                                            <th class="py-2">Project Proposal</th>
+                                            <th class="py-2">Étudiant</th>
+                                            <th class="py-2">Proposition de projet</th>
                                             <th class="py-2">Quiz 2</th>
-                                            <th class="py-2">Lab 4</th>
-                                            <th class="py-2">Average</th>
+                                            <th class="py-2">TP 4</th>
+                                            <th class="py-2">Moyenne</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -207,12 +209,12 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-file-export mr-1"></i>Export Grades</a>
+                                <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-file-export mr-1"></i>Exporter les notes</a>
                             </div>
                             <div id="tab-materials" class="tabcontent hidden">
                                 <div class="flex justify-between items-center mb-2">
-                                    <h4 class="text-md font-semibold text-gray-800">Course Materials</h4>
-                                    <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-upload mr-1"></i>Upload Material</a>
+                                    <h4 class="text-md font-semibold text-gray-800">Matériels du cours</h4>
+                                    <a href="#" class="inline-block px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"><i class="fas fa-upload mr-1"></i>Ajouter un matériel</a>
                                 </div>
                                 <ul class="divide-y divide-gray-200 text-sm">
                                     <li class="py-2 flex items-center gap-2">
@@ -222,23 +224,23 @@
                                     </li>
                                     <li class="py-2 flex items-center gap-2">
                                         <i class="fas fa-file-alt text-yellow-500"></i>
-                                        <a href="#" class="text-blue-700 hover:underline">Lecture 1 - Introduction.pptx</a>
+                                        <a href="#" class="text-blue-700 hover:underline">Cours 1 - Introduction.pptx</a>
                                         <a href="#" class="ml-auto text-gray-400 hover:text-red-600"><i class="fas fa-trash"></i></a>
                                     </li>
                                     <li class="py-2 flex items-center gap-2">
                                         <i class="fas fa-file-code text-green-500"></i>
-                                        <a href="#" class="text-blue-700 hover:underline">Lab 1 Starter Code.zip</a>
+                                        <a href="#" class="text-blue-700 hover:underline">TP 1 Code de départ.zip</a>
                                         <a href="#" class="ml-auto text-gray-400 hover:text-red-600"><i class="fas fa-trash"></i></a>
                                     </li>
                                 </ul>
                             </div>
                             <div id="tab-students" class="tabcontent hidden">
-                                <h4 class="text-md font-semibold text-gray-800 mb-2">Enrolled Students</h4>
+                                <h4 class="text-md font-semibold text-gray-800 mb-2">Étudiants inscrits</h4>
                                 <ul class="divide-y divide-gray-200 text-sm">
                                     <li class="py-2 flex items-center gap-3">
                                         <span class="inline-block w-8 h-8 rounded-full bg-blue-200 text-blue-700 flex items-center justify-center font-bold">A</span>
                                         <span class="flex-1">Alice Johnson</span>
-                                        <a href="#" class="text-blue-600 hover:underline text-xs">View Profile</a>
+                                        <a href="#" class="text-blue-600 hover:underline text-xs">Voir le profil</a>
                                     </li>
                                     <li class="py-2 flex items-center gap-3">
                                         <span class="inline-block w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-bold">B</span>

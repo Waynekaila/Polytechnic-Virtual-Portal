@@ -8,9 +8,6 @@ from django.core.mail import send_mail
 
 # Create your views here.
 @login_required
-def student_dashboard(request):
+def dashboard(request):
 	return render(request, 'Dashboard/student_dashboard.html')
 
-@login_required
-def teacher_dashboard(request):
-	return render(request, 'Dashboard/teacher_dashboard.html')

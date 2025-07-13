@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gradebook | Academic Virtual Portal</title>
+    <title>Carnet de notes | Portail Virtuel Académique</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,8 +27,8 @@
         <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
             <div class="px-6 py-4 flex items-center justify-between md:justify-start">
                 <div class="flex items-center gap-2">
-                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
-                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                    <img src="{% static 'img/logo.png' %}" alt="Minimalist university logo with academic hat icon in blue" class="logo-img">
+                    
                 </div>
                 <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
                     <i class="fas fa-times"></i>
@@ -36,22 +37,23 @@
             <nav class="mt-6">
                 <div class="mb-8">
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Main Menu
+                        Menu Principal
                     </div>
-                    <a href="teacher_dashboard.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
-                    <a href="teacher_courses.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">My Courses</a>
-                    <a href="teacher_assignments.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Assignments</a>
-                    <a href="teacher_grades.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Gradebook</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                    <a href="{% url 'Dashboard:dashboard' %}" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Tableau de bord</a>
+                    <a href="{% url 'Annonces:annonces' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Annonces</a>
+                    <a href="{% url 'Courses:cours' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Cours</a>
+                    <a href="{% url 'Assignments:assignments' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Devoirs</a>
+                    <a href="{% url 'Grades:grade' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Notes</a>
+                    <a href="{% url 'Calendar:calendar' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendrier</a>
+                    <a href="{% url 'Resources:resources' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Ressources</a>
                 </div>
                 <div>
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Account
+                        Compte
                     </div>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="student_settings.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Paramètres</a>
                     <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                    <a href="{% url 'Users:logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Déconnexion</a>
                 </div>
             </nav>
         </nav>
@@ -65,14 +67,14 @@
                         <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
                             <i class="fas fa-bars"></i>
                         </button>
-                        <h1 class="text-xl font-semibold text-gray-900">Gradebook</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Carnet de notes</h1>
                     </div>
                     <div class="flex items-center space-x-4">
                         <button class="text-gray-500 hover:text-gray-700">
                             <i class="far fa-bell text-xl"></i>
                         </button>
                         <div class="relative">
-                            <img src="https://placehold.co/40x40" alt="Teacher profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                            <img src="https://placehold.co/40x40" alt="Photo de profil enseignant" class="rounded-full w-8 h-8 cursor-pointer">
                         </div>
                     </div>
                 </div>
@@ -82,28 +84,28 @@
             <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
                     <div>
-                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Course Gradebook</h2>
-                        <p class="text-gray-500 text-sm">View and update grades for your students</p>
+                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Carnet de notes du cours</h2>
+                        <p class="text-gray-500 text-sm">Voir et mettre à jour les notes de vos étudiants</p>
                     </div>
                     <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-                        <i class="fas fa-file-export mr-2"></i>Export Gradebook
+                        <i class="fas fa-file-export mr-2"></i>Exporter le carnet de notes
                     </button>
                 </div>
                 <!-- Filter/Search Bar -->
                 <div class="bg-white shadow rounded-lg p-4 mb-6 flex flex-col md:flex-row gap-4 md:items-center">
                     <div class="flex flex-1 gap-2">
-                        <input type="text" placeholder="Search students..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                        <input type="text" placeholder="Rechercher des étudiants..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
                         <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                            <option>All Courses</option>
-                            <option>AI Fundamentals</option>
-                            <option>English 204</option>
-                            <option>Data Structures</option>
+                            <option>Tous les cours</option>
+                            <option>Fondamentaux de l'IA</option>
+                            <option>Anglais 204</option>
+                            <option>Structures de données</option>
                         </select>
                         <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                            <option>All Assignments</option>
-                            <option>Project Proposal</option>
-                            <option>Midterm Essay</option>
-                            <option>Lab 4</option>
+                            <option>Tous les devoirs</option>
+                            <option>Proposition de projet</option>
+                            <option>Essai de mi-semestre</option>
+                            <option>TP 4</option>
                         </select>
                     </div>
                 </div>
@@ -112,12 +114,12 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr class="bg-gray-50">
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Proposal</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Midterm Essay</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lab 4</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Average</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feedback</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Étudiant</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proposition de projet</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Essai de mi-semestre</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TP 4</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Moyenne</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Retour</th>
                                 <th class="px-6 py-3"></th>
                             </tr>
                         </thead>
@@ -138,10 +140,10 @@
                                 </td>
                                 <td class="px-6 py-4 font-semibold">90%</td>
                                 <td class="px-6 py-4">
-                                    <input type="text" value="Great work!" class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                    <input type="text" value="Très bon travail !" class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Save</button>
+                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Enregistrer</button>
                                 </td>
                             </tr>
                             <tr>
@@ -160,10 +162,10 @@
                                 </td>
                                 <td class="px-6 py-4 font-semibold">89%</td>
                                 <td class="px-6 py-4">
-                                    <input type="text" value="Consistent performance." class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                    <input type="text" value="Performance régulière." class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Save</button>
+                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Enregistrer</button>
                                 </td>
                             </tr>
                             <tr>
@@ -182,10 +184,10 @@
                                 </td>
                                 <td class="px-6 py-4 font-semibold">95%</td>
                                 <td class="px-6 py-4">
-                                    <input type="text" value="" placeholder="Feedback..." class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
+                                    <input type="text" value="" placeholder="Retour..." class="w-32 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"/>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Save</button>
+                                    <button class="inline-block bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs"><i class="fas fa-save mr-1"></i>Enregistrer</button>
                                 </td>
                             </tr>
                             <!-- Add more students/assignments as needed -->

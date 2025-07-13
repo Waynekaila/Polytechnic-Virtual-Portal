@@ -24,6 +24,12 @@ urlpatterns = [
     path('', include('Users.urls')),
     path('dashboard/', include('Dashboard.urls')),
     path('courses', include('Courses.urls')),
+    path('grades', include('Grades.urls')),
+    path('calendar', include('Calendar.urls')),
+    path('resources', include('Resources.urls')),
+    path('annonces', include('Annonces.urls')),
+    path('devoir', include('Assignments.urls')),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -41,8 +41,15 @@ INSTALLED_APPS = [
     'sslserver',
     'Users',
     'Dashboard',
-    'Courses'
+    'Courses',
+    'Grades',
+    'Calendar',
+    'Resources',
+    'django.contrib.humanize', 
+    'Annonces',  
+    'Assignments',  
 ]
+    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

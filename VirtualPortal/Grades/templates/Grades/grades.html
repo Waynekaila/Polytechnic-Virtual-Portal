@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Grades | Academic Virtual Portal</title>
+    <title>Mes notes | Portail Virtuel Académique</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,8 +27,8 @@
         <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
             <div class="px-6 py-4 flex items-center justify-between md:justify-start">
                 <div class="flex items-center gap-2">
-                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
-                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                    <img src="{% static 'img/logo.png' %}" alt="Minimalist university logo with academic hat icon in blue" class="logo-img">
+                    
                 </div>
                 <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
                     <i class="fas fa-times"></i>
@@ -36,22 +37,23 @@
             <nav class="mt-6">
                 <div class="mb-8">
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Main Menu
+                        Menu Principal
                     </div>
-                    <a href="student_dashboard.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
-                    <a href="student_courses.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Courses</a>
-                    <a href="student_assignments.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Assignments</a>
-                    <a href="student_grades.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Grades</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                    <a href="{% url 'Dashboard:dashboard' %}" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Tableau de bord</a>
+                    <a href="{% url 'Annonces:annonces' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Annonces</a>
+                    <a href="{% url 'Courses:cours' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Cours</a>
+                    <a href="{% url 'Assignments:assignments' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Devoirs</a>
+                    <a href="{% url 'Grades:grade' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Notes</a>
+                    <a href="{% url 'Calendar:calendar' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendrier</a>
+                    <a href="{% url 'Resources:resources' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Ressources</a>
                 </div>
                 <div>
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Account
+                        Compte
                     </div>
-                    <a href="student_settings.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="student_settings.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Paramètres</a>
                     <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                    <a href="{% url 'Users:logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Déconnexion</a>
                 </div>
             </nav>
         </nav>
@@ -65,14 +67,14 @@
                         <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
                             <i class="fas fa-bars"></i>
                         </button>
-                        <h1 class="text-xl font-semibold text-gray-900">My Grades</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Mes notes</h1>
                     </div>
                     <div class="flex items-center space-x-4">
                         <button class="text-gray-500 hover:text-gray-700">
                             <i class="far fa-bell text-xl"></i>
                         </button>
                         <div class="relative">
-                            <img src="https://placehold.co/40x40" alt="Student profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                        <img src="https://placehold.co/40x40" alt="Photo de profil étudiant" class="rounded-full w-8 h-8 cursor-pointer">
                         </div>
                     </div>
                 </div>
@@ -82,22 +84,22 @@
             <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
                     <div>
-                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Grades Overview</h2>
-                        <p class="text-gray-500 text-sm">See your grades by course and assignment</p>
+                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Aperçu des notes</h2>
+                        <p class="text-gray-500 text-sm">Consultez vos notes par cours et devoir</p>
                     </div>
                 </div>
                 <!-- GPA and Summary -->
                 <div class="bg-white shadow rounded-lg p-6 mb-6 flex flex-col md:flex-row gap-6 justify-between">
                     <div>
-                        <div class="text-gray-500 text-sm">Current GPA</div>
+                        <div class="text-gray-500 text-sm">Moyenne générale actuelle</div>
                         <div class="text-3xl font-bold text-blue-700">3.8</div>
                     </div>
                     <div>
-                        <div class="text-gray-500 text-sm">Completed Credits</div>
+                        <div class="text-gray-500 text-sm">Crédits validés</div>
                         <div class="text-3xl font-bold text-green-600">45</div>
                     </div>
                     <div>
-                        <div class="text-gray-500 text-sm">Courses Completed</div>
+                        <div class="text-gray-500 text-sm">Cours validés</div>
                         <div class="text-3xl font-bold text-yellow-600">15</div>
                     </div>
                 </div>
@@ -106,46 +108,46 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr class="bg-gray-50">
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignment</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feedback</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cours</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Devoir</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date limite</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Retour</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 text-sm">
                             <tr>
-                                <td class="px-6 py-4">AI Fundamentals</td>
-                                <td class="px-6 py-4">Project Proposal</td>
-                                <td class="px-6 py-4">Jul 18, 2025</td>
-                                <td class="px-6 py-4"><span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Graded</span></td>
+                                <td class="px-6 py-4">Fondamentaux de l'IA</td>
+                                <td class="px-6 py-4">Proposition de projet</td>
+                                <td class="px-6 py-4">18 juil. 2025</td>
+                                <td class="px-6 py-4"><span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Noté</span></td>
                                 <td class="px-6 py-4 font-semibold text-blue-700">92%</td>
-                                <td class="px-6 py-4 text-gray-700">Excellent work and analysis!</td>
+                                <td class="px-6 py-4 text-gray-700">Excellent travail et analyse !</td>
                             </tr>
                             <tr>
-                                <td class="px-6 py-4">English 204</td>
-                                <td class="px-6 py-4">Midterm Essay</td>
-                                <td class="px-6 py-4">Jul 22, 2025</td>
-                                <td class="px-6 py-4"><span class="inline-block bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">In Progress</span></td>
+                                <td class="px-6 py-4">Anglais 204</td>
+                                <td class="px-6 py-4">Essai de mi-semestre</td>
+                                <td class="px-6 py-4">22 juil. 2025</td>
+                                <td class="px-6 py-4"><span class="inline-block bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">En cours</span></td>
                                 <td class="px-6 py-4">--</td>
-                                <td class="px-6 py-4 text-gray-400">Not yet graded</td>
+                                <td class="px-6 py-4 text-gray-400">Pas encore noté</td>
                             </tr>
                             <tr>
-                                <td class="px-6 py-4">Data Structures</td>
-                                <td class="px-6 py-4">Lab 4</td>
-                                <td class="px-6 py-4">Jul 25, 2025</td>
-                                <td class="px-6 py-4"><span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Submitted</span></td>
+                                <td class="px-6 py-4">Structures de données</td>
+                                <td class="px-6 py-4">TP 4</td>
+                                <td class="px-6 py-4">25 juil. 2025</td>
+                                <td class="px-6 py-4"><span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Soumis</span></td>
                                 <td class="px-6 py-4">--</td>
-                                <td class="px-6 py-4 text-gray-400">Not yet graded</td>
+                                <td class="px-6 py-4 text-gray-400">Pas encore noté</td>
                             </tr>
                             <tr>
-                                <td class="px-6 py-4">AI Fundamentals</td>
+                                <td class="px-6 py-4">Fondamentaux de l'IA</td>
                                 <td class="px-6 py-4">Quiz 1</td>
-                                <td class="px-6 py-4">Jul 1, 2025</td>
-                                <td class="px-6 py-4"><span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Graded</span></td>
+                                <td class="px-6 py-4">1 juil. 2025</td>
+                                <td class="px-6 py-4"><span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Noté</span></td>
                                 <td class="px-6 py-4 font-semibold text-blue-700">88%</td>
-                                <td class="px-6 py-4 text-gray-700">Good effort!</td>
+                                <td class="px-6 py-4 text-gray-700">Bon travail !</td>
                             </tr>
                         </tbody>
                     </table>

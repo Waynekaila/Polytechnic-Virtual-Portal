@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Assignments | Academic Virtual Portal</title>
+    <title>Devoirs | Portail Virtuel Académique</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,8 +27,8 @@
         <nav id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 md:block md:translate-x-0 transform transition-transform duration-300 ease-in-out">
             <div class="px-6 py-4 flex items-center justify-between md:justify-start">
                 <div class="flex items-center gap-2">
-                    <img src="https://placehold.co/40x40" alt="University logo" class="rounded-md">
-                    <h2 class="text-xl font-semibold text-gray-800">AcademiaLink</h2>
+                    <img src="{% static 'img/logo.png' %}" alt="Minimalist university logo with academic hat icon in blue" class="logo-img">
+                    
                 </div>
                 <button id="close-sidebar" class="md:hidden text-gray-500 text-2xl ml-4 focus:outline-none">
                     <i class="fas fa-times"></i>
@@ -36,22 +37,23 @@
             <nav class="mt-6">
                 <div class="mb-8">
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Main Menu
+                        Menu Principal
                     </div>
-                    <a href="student_dashboard.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Dashboard</a>
-                    <a href="student_courses.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Courses</a>
-                    <a href="student_assignments.html" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Assignments</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Grades</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendar</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Resources</a>
+                    <a href="{% url 'Dashboard:dashboard' %}" class="block px-6 py-2 bg-blue-50 text-blue-600 font-medium rounded-r-full">Tableau de bord</a>
+                    <a href="{% url 'Annonces:annonces' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Annonces</a>
+                    <a href="{% url 'Courses:cours' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Cours</a>
+                    <a href="{% url 'Assignments:assignments' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Devoirs</a>
+                    <a href="{% url 'Grades:grade' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Notes</a>
+                    <a href="{% url 'Calendar:calendar' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Calendrier</a>
+                    <a href="{% url 'Resources:resources' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Ressources</a>
                 </div>
                 <div>
                     <div class="px-2 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Account
+                        Compte
                     </div>
-                    <a href="student_settings.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Settings</a>
+                    <a href="student_settings.html" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Paramètres</a>
                     <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Support</a>
-                    <a href="#" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Logout</a>
+                    <a href="{% url 'Users:logout' %}" class="block px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-r-full">Déconnexion</a>
                 </div>
             </nav>
         </nav>
@@ -65,14 +67,14 @@
                         <button id="open-sidebar" class="md:hidden text-gray-500 mr-4 text-2xl focus:outline-none" aria-label="Open sidebar">
                             <i class="fas fa-bars"></i>
                         </button>
-                        <h1 class="text-xl font-semibold text-gray-900">My Assignments</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Devoirs</h1>
                     </div>
                     <div class="flex items-center space-x-4">
                         <button class="text-gray-500 hover:text-gray-700">
                             <i class="far fa-bell text-xl"></i>
                         </button>
                         <div class="relative">
-                            <img src="https://placehold.co/40x40" alt="Student profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                            <img src="https://placehold.co/40x40" alt="Teacher profile picture" class="rounded-full w-8 h-8 cursor-pointer">
                         </div>
                     </div>
                 </div>
@@ -82,30 +84,32 @@
             <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
                     <div>
-                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Upcoming & Recent Assignments</h2>
-                        <p class="text-gray-500 text-sm">Track deadlines and submission status</p>
+                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Tous les devoirs</h2>
+                        <p class="text-gray-500 text-sm">Gérez et corrigez les devoirs de vos cours</p>
                     </div>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                        <i class="fas fa-plus mr-2"></i>Créer un devoir
+                    </button>
                 </div>
                 <!-- Filter/Search Bar -->
                 <div class="bg-white shadow rounded-lg p-4 mb-6 flex flex-col md:flex-row gap-4 md:items-center">
                     <div class="flex flex-1 gap-2">
-                        <input type="text" placeholder="Search assignments..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                        <input type="text" placeholder="Rechercher des devoirs..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
                         <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                            <option>All Courses</option>
-                            <option>AI Fundamentals</option>
-                            <option>English 204</option>
-                            <option>Data Structures</option>
+                            <option>Tous les cours</option>
+                            <option>Fondamentaux IA</option>
+                            <option>Anglais 204</option>
+                            <option>Structures de données</option>
                         </select>
                         <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                            <option>Status: All</option>
-                            <option>Pending</option>
-                            <option>In Progress</option>
-                            <option>Submitted</option>
-                            <option>Graded</option>
+                            <option>Statut : Tous</option>
+                            <option>En attente</option>
+                            <option>En cours</option>
+                            <option>Corrigé</option>
                         </select>
                     </div>
                     <button class="inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none">
-                        <i class="fas fa-filter mr-1"></i>Filter
+                        <i class="fas fa-filter mr-1"></i>Filtrer
                     </button>
                 </div>
                 <!-- Assignments Table -->
@@ -113,71 +117,61 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr class="bg-gray-50">
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignment</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Devoir</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cours</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date limite</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Soumissions</th>
                                 <th class="px-6 py-3"></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 text-sm">
                             <tr>
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">Project Proposal</div>
+                                    <div class="font-medium text-gray-900">Proposition de projet</div>
                                 </td>
-                                <td class="px-6 py-4">AI Fundamentals</td>
-                                <td class="px-6 py-4">Jul 18, 2025</td>
+                                <td class="px-6 py-4">Fondamentaux IA</td>
+                                <td class="px-6 py-4">18 juil. 2025</td>
                                 <td class="px-6 py-4">
-                                    <span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Pending</span>
+                                    <span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">En attente</span>
                                 </td>
-                                <td class="px-6 py-4">--</td>
+                                <td class="px-6 py-4">12 / 45</td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-upload mr-1"></i>Submit</a>
-                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-eye mr-1"></i>Details</a>
+                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>Voir</a>
+                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Éditer</a>
+                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Corriger</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">Midterm Essay</div>
+                                    <div class="font-medium text-gray-900">Essai de mi-semestre</div>
                                 </td>
-                                <td class="px-6 py-4">English 204</td>
-                                <td class="px-6 py-4">Jul 22, 2025</td>
+                                <td class="px-6 py-4">Anglais 204</td>
+                                <td class="px-6 py-4">22 juil. 2025</td>
                                 <td class="px-6 py-4">
-                                    <span class="inline-block bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">In Progress</span>
+                                    <span class="inline-block bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">En cours</span>
                                 </td>
-                                <td class="px-6 py-4">--</td>
+                                <td class="px-6 py-4">8 / 32</td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-upload mr-1"></i>Submit</a>
-                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-eye mr-1"></i>Details</a>
+                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>Voir</a>
+                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Éditer</a>
+                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Corriger</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">Lab 4: Data Structures</div>
+                                    <div class="font-medium text-gray-900">TP 4 : Structures de données</div>
                                 </td>
-                                <td class="px-6 py-4">Data Structures</td>
-                                <td class="px-6 py-4">Jul 25, 2025</td>
+                                <td class="px-6 py-4">Structures de données</td>
+                                <td class="px-6 py-4">25 juil. 2025</td>
                                 <td class="px-6 py-4">
-                                    <span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Submitted</span>
+                                    <span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Corrigé</span>
                                 </td>
-                                <td class="px-6 py-4">--</td>
+                                <td class="px-6 py-4">15 / 43</td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-eye mr-1"></i>Details</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">Quiz 1</div>
-                                </td>
-                                <td class="px-6 py-4">AI Fundamentals</td>
-                                <td class="px-6 py-4">Jul 1, 2025</td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Graded</span>
-                                </td>
-                                <td class="px-6 py-4">88%</td>
-                                <td class="px-6 py-4 flex gap-2">
-                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-eye mr-1"></i>Details</a>
+                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>Voir</a>
+                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Éditer</a>
+                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Corriger</a>
                                 </td>
                             </tr>
                             <!-- More assignment rows can be added here -->
