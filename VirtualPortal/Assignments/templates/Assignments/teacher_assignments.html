@@ -18,6 +18,8 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 </head>
 <body class="bg-gray-50">
     <!-- Mobile Sidebar Overlay -->
@@ -94,127 +96,198 @@
             </header>
 
             <!-- Assignments Page Content -->
-            <main class="max-w-7xl mx-auto w-full px-2 xs:px-4 sm:px-6 lg:px-8 py-6 flex-1">
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
-                    <div>
-                        <h2 class="text-lg xs:text-xl font-bold text-gray-900">Tous les devoirs</h2>
-                        <p class="text-gray-500 text-sm">Gérez et corrigez les devoirs de vos cours</p>
-                    </div>
-                    <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-                        <i class="fas fa-plus mr-2"></i>Créer un devoir
-                    </button>
-                </div>
-                <!-- Filter/Search Bar -->
-                <div class="bg-white shadow rounded-lg p-4 mb-6 flex flex-col md:flex-row gap-4 md:items-center">
-                    <div class="flex flex-1 gap-2">
-                        <input type="text" placeholder="Rechercher des devoirs..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
-                        <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                            <option>Tous les cours</option>
-                            <option>Fondamentaux IA</option>
-                            <option>Anglais 204</option>
-                            <option>Structures de données</option>
-                        </select>
-                        <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                            <option>Statut : Tous</option>
-                            <option>En attente</option>
-                            <option>En cours</option>
-                            <option>Corrigé</option>
-                        </select>
-                    </div>
-                    <button class="inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none">
-                        <i class="fas fa-filter mr-1"></i>Filtrer
-                    </button>
-                </div>
-                <!-- Assignments Table -->
-                <div class="bg-white shadow rounded-lg overflow-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead>
-                            <tr class="bg-gray-50">
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Devoir</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cours</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date limite</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Soumissions</th>
-                                <th class="px-6 py-3"></th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 text-sm">
-                            <tr>
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">Proposition de projet</div>
-                                </td>
-                                <td class="px-6 py-4">Fondamentaux IA</td>
-                                <td class="px-6 py-4">18 juil. 2025</td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">En attente</span>
-                                </td>
-                                <td class="px-6 py-4">12 / 45</td>
-                                <td class="px-6 py-4 flex gap-2">
-                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>Voir</a>
-                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Éditer</a>
-                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Corriger</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">Essai de mi-semestre</div>
-                                </td>
-                                <td class="px-6 py-4">Anglais 204</td>
-                                <td class="px-6 py-4">22 juil. 2025</td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-block bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">En cours</span>
-                                </td>
-                                <td class="px-6 py-4">8 / 32</td>
-                                <td class="px-6 py-4 flex gap-2">
-                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>Voir</a>
-                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Éditer</a>
-                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Corriger</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">TP 4 : Structures de données</div>
-                                </td>
-                                <td class="px-6 py-4">Structures de données</td>
-                                <td class="px-6 py-4">25 juil. 2025</td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Corrigé</span>
-                                </td>
-                                <td class="px-6 py-4">15 / 43</td>
-                                <td class="px-6 py-4 flex gap-2">
-                                    <a href="#" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"><i class="fas fa-eye mr-1"></i>Voir</a>
-                                    <a href="#" class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"><i class="fas fa-edit mr-1"></i>Éditer</a>
-                                    <a href="#" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200"><i class="fas fa-check mr-1"></i>Corriger</a>
-                                </td>
-                            </tr>
-                            <!-- More assignment rows can be added here -->
-                        </tbody>
-                    </table>
-                </div>
-            </main>
-        </div>
+            <div class="p-6">
+
+    <!-- Barre de recherche et filtres -->
+    <form method="GET" action="{% url 'Assignments:assignments' %}" class="flex flex-col md:flex-row gap-4 mb-6">
+        <input type="text" name="search" placeholder="Rechercher des devoirs..."
+               value="{{ request.GET.search }}"
+               class="w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 text-gray-900">
+
+        <select name="cours"
+                class="h-10 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 text-gray-900">
+            <option value="">Tous les cours</option>
+            {% for cours in cours_list %}
+                <option value="{{ cours.id }}" {% if request.GET.cours == cours.id|stringformat:"s" %}selected{% endif %}>
+                    {{ cours.title }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="statut"
+                class="h-10 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 text-gray-900">
+            <option value="">Statut : Tous</option>
+            <option value="en_attente" {% if request.GET.statut == "en_attente" %}selected{% endif %}>En attente</option>
+            <option value="en_cours" {% if request.GET.statut == "en_cours" %}selected{% endif %}>En cours</option>
+            <option value="soumis" {% if request.GET.statut == "soumis" %}selected{% endif %}>Soumis</option>
+            <option value="corrige" {% if request.GET.statut == "corrige" %}selected{% endif %}>Corrigé</option>
+        </select>
+
+        <button type="submit" class="h-10 bg-blue-500 text-white px-4 rounded-md shadow-sm hover:bg-blue-600 flex items-center justify-center">
+            <i class="fas fa-filter mr-1"></i>Filtrer
+        </button>
+    </form>
+
+    <!-- Bouton Nouveau Devoir -->
+    <div class="mb-4">
+        <button id="openCreateModal"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+            <i class="fas fa-plus mr-2"></i>Créer un devoir
+        </button>
     </div>
-    <script>
-        // Sidebar open/close for mobile
-        const openSidebar = document.getElementById('open-sidebar');
-        const closeSidebar = document.getElementById('close-sidebar');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebar-overlay');
-        function openSidebarMenu() {
-            sidebar.classList.add('open');
-            overlay.classList.add('open');
-        }
-        function closeSidebarMenu() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
-        }
-        if(openSidebar) openSidebar.onclick = openSidebarMenu;
-        if(closeSidebar) closeSidebar.onclick = closeSidebarMenu;
-        if(overlay) overlay.onclick = closeSidebarMenu;
-        // Accessibility: close on ESC
-        document.addEventListener('keydown', function(e){
-            if(e.key === "Escape") closeSidebarMenu();
+
+    <!-- Tableau des devoirs -->
+    <div class="bg-white shadow rounded-lg overflow-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr class="bg-gray-50">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Devoir</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cours</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date limite</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                    <th class="px-6 py-3"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 text-sm">
+                {% for devoir in devoirs %}
+                <tr>
+                    <td class="px-6 py-4 font-medium text-gray-900">{{ devoir.titre }}</td>
+                    <td class="px-6 py-4">{{ devoir.cours }}</td>
+                    <td class="px-6 py-4">{{ devoir.date_limite|date:"d M Y H:i" }}</td>
+                    <td class="px-6 py-4">
+                        {% if devoir.statut == "En attente" %}
+                            <span class="inline-block bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">En attente</span>
+                        {% elif devoir.statut == "En cours" %}
+                            <span class="inline-block bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">En cours</span>
+                        {% else %}
+                            <span class="inline-block bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Corrigé</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 flex gap-2">
+                        <a href="{% url 'Assignments:view' devoir.id %}" class="inline-block bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700">
+                            <i class="fas fa-eye mr-1"></i>Voir
+                        </a>
+                        <a href="javascript:void(0)" class="editBtn inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-200"
+                           data-id="{{ devoir.id }}"
+                           data-titre="{{ devoir.titre }}"
+                           data-cours="{{ devoir.cours_id }}"
+                           data-date="{{ devoir.date_limite|date:'Y-m-d\\TH:i' }}"
+                           data-description="{{ devoir.description }}"
+                           data-liens="{{ devoir.liens }}"
+                           data-promotion="{{ devoir.promotion }}">
+                            <i class="fas fa-edit mr-1"></i>Éditer
+                        </a>
+                        <a href="{% url 'Assignments:correct' devoir.id %}" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200">
+                            <i class="fas fa-check mr-1"></i>Corriger
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Création / Édition -->
+<div id="editDevoirModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-[#8495b0]/70">
+    <div class="bg-[#8495b0] p-6 rounded-lg w-full max-w-md">
+        <h2 class="text-white text-lg font-semibold mb-4" id="modalTitle">Créer un devoir</h2>
+        <form method="POST" id="editDevoirForm">
+            {% csrf_token %}
+            <input type="hidden" name="devoir_id" id="editDevoirId">
+
+            <div class="mb-4">
+                <label for="editTitre" class="block text-sm font-medium text-white">Titre</label>
+                <input type="text" name="titre" id="editTitre" required
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 py-1">
+            </div>
+
+            <div class="mb-4">
+                <label for="editCours" class="block text-sm font-medium text-white">Cours</label>
+                <select name="cours" id="editCours" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 py-1">
+                    {% for cours in cours_list %}
+                        <option value="{{ cours.id }}">{{ cours.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="editDateLimite" class="block text-sm font-medium text-white">Date limite</label>
+                <input type="datetime-local" name="date_limite" id="editDateLimite" required
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 py-1">
+            </div>
+
+            <div class="mb-4">
+                <label for="editDescription" class="block text-sm font-medium text-white">Description</label>
+                <textarea name="description" id="editDescription" rows="3"
+                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 py-1"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="editLiens" class="block text-sm font-medium text-white">Liens</label>
+                <input type="text" name="liens" id="editLiens"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 py-1">
+            </div>
+
+            <div class="mb-4">
+                <label for="editPromotion" class="block text-sm font-medium text-white">Promotion</label>
+                <select name="promotion" id="editPromotion"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-2 py-1">
+                    <option value="Science de base">Science de base</option>
+                    <option value="Informatique">Informatique</option>
+                    <option value="Mathématiques">Mathématiques</option>
+                    <option value="Physique">Physique</option>
+                    <option value="Chimie">Chimie</option>
+                </select>
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" id="closeEditModal"
+                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Annuler</button>
+                <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JS -->
+<script>
+    // Ouvrir modal création
+    document.getElementById('openCreateModal').onclick = function() {
+        const modal = document.getElementById('editDevoirModal');
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+        document.getElementById('modalTitle').innerText = "Créer un devoir";
+        document.getElementById('editDevoirForm').action = "{% url 'Assignments:create' %}";
+        document.getElementById('editDevoirForm').reset();
+    };
+
+    // Ouvrir modal édition
+    document.querySelectorAll('.editBtn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const modal = document.getElementById('editDevoirModal');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+
+            document.getElementById('modalTitle').innerText = "Éditer le devoir";
+            document.getElementById('editDevoirForm').action = `/Devoirs/${this.dataset.id}/edit/`;
+            document.getElementById('editDevoirId').value = this.dataset.id;
+            document.getElementById('editTitre').value = this.dataset.titre;
+            document.getElementById('editCours').value = this.dataset.cours;
+            document.getElementById('editDateLimite').value = this.dataset.date;
+            document.getElementById('editDescription').value = this.dataset.description;
+            document.getElementById('editLiens').value = this.dataset.liens;
+            document.getElementById('editPromotion').value = this.dataset.promotion;
         });
-    </script>
+    });
+
+    // Fermer modal
+    document.getElementById('closeEditModal').onclick = function() {
+        const modal = document.getElementById('editDevoirModal');
+        modal.classList.add('hidden'); modal.classList.remove('flex');
+    };
+
+
+</script>
 </body>
 </html>
