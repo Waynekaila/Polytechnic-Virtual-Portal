@@ -106,7 +106,8 @@
                             <i class="far fa-bell text-xl"></i>
                         </button>
                         <div class="relative">
-                            <img src="https://placehold.co/40x40" alt="Student profile picture" class="rounded-full w-8 h-8 cursor-pointer">
+                            <img   src="https://pin.it/7zJcz1TvM" alt="Student profile picture"   class="rounded-full w-[50px] h-[50px] cursor-pointer">
+
                         </div>
                     </div>
                 </div>
@@ -119,10 +120,11 @@
                     <div class="col-span-1 space-y-6 order-1">
                         <!-- Welcome Card -->
                         <div class="bg-white shadow rounded-lg p-4 xs:p-6 flex flex-col sm:flex-row items-center gap-4">
-                            <img src="https://placehold.co/80x80" alt="Student avatar" class="rounded-full w-20 h-20 border">
+                            <img src="https://pin.it/7zJcz1TvM" alt="Student profile picture" class="rounded-full w-[80px] h-[80px] cursor-pointer">
+
                             <div class="flex-1 text-center sm:text-left">
-                                <h2 class="text-lg xs:text-xl font-bold text-gray-900">Bon retour, Alex !</h2>
-                                <p class="text-gray-600 mt-1">Licence Informatique</p>
+                                <h2 class="text-lg xs:text-xl font-bold text-gray-900">Bon retour, {{ username }}  !</h2>
+                                <p class="text-gray-600 mt-1">{{ promotion }}</p>
                                 <a href="student_settings.html" class="text-blue-600 text-sm hover:underline mt-2 inline-block"><i class="fas fa-cog mr-1"></i>Modifier le profil</a>
                             </div>
                         </div>
@@ -135,7 +137,7 @@
                                     <span class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center">
                                         <i class="fas fa-book"></i>
                                     </span>
-                                    <span>Cours inscrits : <span class="font-bold">5</span></span>
+                                    <span>Cours inscrits : <span class="font-bold">{{ NbrCoursR }}</span></span>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <span class="bg-green-100 text-green-600 rounded-full w-10 h-10 flex items-center justify-center">
