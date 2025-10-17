@@ -101,18 +101,18 @@
                         <p class="text-gray-500 text-sm">Restez informé des dernières nouvelles et annonces importantes de vos cours et de l'université.</p>
                     </div>
                 </div>
-                <!-- Search and Filter -->
-                <div class="bg-white shadow rounded-lg p-4 mb-6 flex flex-col md:flex-row gap-4 md:items-center">
-                    <input type="text" placeholder="Rechercher des annonces..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
-                    <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                        <option>Tous les cours</option>
-                        <option>Fondamentaux IA</option>
-                        <option>Anglais 204</option>
-                        <option>Structures de données</option>
-                    </select>
-                </div>
+                <!-- Search Bar -->
+                <form method="GET" action="{% url 'Annonces:annonces' %}" class="flex gap-4 mb-4">
+                    <input type="text" name="q" placeholder="Rechercher dans les annonces..."
+                           value="{{ query }}"
+                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded-md">Rechercher</button>
+                </form>
+
                 <!-- Announcements List -->
                 <div class="space-y-6">
+                  
+                  {% for annonce in annonces %}
                     <!-- Announcement Card 1 -->
                     <div class="bg-white shadow rounded-lg p-5 flex flex-col">
                         <div class="flex items-center gap-3 mb-2">
@@ -120,73 +120,54 @@
                                 <i class="fas fa-bullhorn"></i>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-800 text-base">Planning des examens de mi-semestre publié</h3>
-                                <span class="text-xs text-gray-500">Fondamentaux IA • 10 juillet 2025</span>
+                                <h3 class="font-semibold text-gray-800 text-base">{{ annonce.titre }}</h3>
+                                <span class="text-xs text-gray-500">{{ annonce.objet }} • {{ annonce.date_creation }}</span>
                             </div>
                         </div>
-                        <p class="text-gray-600 text-sm mb-4 flex-1">Le planning des examens de mi-semestre est désormais disponible. Veuillez consulter le calendrier pour connaître votre créneau et salle.</p>
+                        <p class="text-gray-600 text-sm mb-4 flex-1">{{ annonce.description }}</p>
                         <div class="flex justify-end items-center text-xs text-gray-400">
-                            <span><i class="far fa-user mr-1"></i>Pr. Smith</span>
+                            <span><i class="far fa-user mr-1"></i>{{ annonce.auteur.username }}</span>
                         </div>
                     </div>
-                    <!-- Announcement Card 2 -->
-                    <div class="bg-white shadow rounded-lg p-5 flex flex-col">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="bg-green-100 text-green-600 rounded-full w-10 h-10 flex items-center justify-center text-xl">
-                                <i class="fas fa-bullhorn"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-800 text-base">Date limite du devoir 2 prolongée</h3>
-                                <span class="text-xs text-gray-500">Structures de données • 8 juillet 2025</span>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4 flex-1">La date limite pour le devoir 2 a été prolongée jusqu'au 15 juillet suite aux demandes des étudiants.</p>
-                        <div class="flex justify-end items-center text-xs text-gray-400">
-                            <span><i class="far fa-user mr-1"></i>Dr. Lee</span>
-                        </div>
-                    </div>
-                    <!-- Announcement Card 3 -->
-                    <div class="bg-white shadow rounded-lg p-5 flex flex-col">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="bg-yellow-100 text-yellow-600 rounded-full w-10 h-10 flex items-center justify-center text-xl">
-                                <i class="fas fa-bullhorn"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-800 text-base">Conférence invitée : IA en santé</h3>
-                                <span class="text-xs text-gray-500">Anglais 204 • 5 juillet 2025</span>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4 flex-1">Participez à une conférence spéciale sur les applications de l'IA en santé, prévue le 15 juillet à 10h00 en salle 204.</p>
-                        <div class="flex justify-end items-center text-xs text-gray-400">
-                            <span><i class="far fa-user mr-1"></i>Pr. Adams</span>
-                        </div>
-                    </div>
+                  
+                  {% endfor %}
+                  
+                    
                     <!-- More announcement cards can be added here -->
                 </div>
             </main>
         </div>
     </div>
     <script>
-        // Sidebar open/close for mobile
-        const openSidebar = document.getElementById('open-sidebar');
-        const closeSidebar = document.getElementById('close-sidebar');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebar-overlay');
-        function openSidebarMenu() {
-            sidebar.classList.add('open');
-            overlay.classList.add('open');
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+
+    // Au clic sur le bouton
+    if(searchBtn) {
+        searchBtn.onclick = function() {
+            const query = searchInput.value.trim();
+            if(query) {
+                console.log("Recherche pour :", query);
+                // Ici tu peux rediriger vers la vue filtrée, ex :
+                // window.location.href = `/annonces/?q=${encodeURIComponent(query)}`;
+            }
         }
-        function closeSidebarMenu() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
-        }
-        if(openSidebar) openSidebar.onclick = openSidebarMenu;
-        if(closeSidebar) closeSidebar.onclick = closeSidebarMenu;
-        if(overlay) overlay.onclick = closeSidebarMenu;
-        // Accessibility: close on ESC
-        document.addEventListener('keydown', function(e){
-            if(e.key === "Escape") closeSidebarMenu();
+    }
+
+    // Au clavier : appuyer sur Enter
+    if(searchInput) {
+        searchInput.addEventListener('keydown', function(e) {
+            if(e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if(query) {
+                    console.log("Recherche pour :", query);
+                    // Redirection possible
+                    // window.location.href = `/annonces/?q=${encodeURIComponent(query)}`;
+                }
+            }
         });
-    </script>
+    }
+</script>
+
 </body>
 </html>

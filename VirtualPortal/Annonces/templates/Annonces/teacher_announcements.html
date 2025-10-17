@@ -100,108 +100,191 @@
                         <h2 class="text-lg xs:text-xl font-bold text-gray-900">Gérer les annonces</h2>
                         <p class="text-gray-500 text-sm">Créez, modifiez et gérez les actualités et annonces importantes pour vos étudiants et vos cours.</p>
                     </div>
-                    <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                    <!-- Bouton Nouvelle annonce -->
+                    <button id="open-modal" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                         <i class="fas fa-plus mr-2"></i>Nouvelle annonce
                     </button>
+
+                    <!-- Modal -->
+                    <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden z-50 flex items-center justify-center">
+                        <div class="rounded-lg shadow-lg w-full max-w-md p-6" style="background-color: #afc4cc;">
+                            <h2 class="text-xl font-bold mb-4 text-center">Créer une nouvelle annonce</h2>
+                            <form method="POST" action="{% url 'Annonces:create_annonce' %}">
+                                {% csrf_token %}
+                                <!-- Titre -->
+                                <label class="block mb-2">Titre</label>
+                                <input type="text" name="titre" class="w-full mb-3 rounded-md border-gray-300 p-2" required>
+
+                                <!-- Objet -->
+                                <select name="objet" class="w-full mb-3 rounded-md border-gray-300 p-2" required>
+                                <option value="">-- Choisir un objet --</option>
+                                {% for option in objet_choices %}
+                                    <option value="{{ option }}">{{ option|capfirst }}</option>
+                                {% endfor %}
+                            </select>
+
+                                <!-- Description -->
+                                <label class="block mb-2">Description</label>
+                                <textarea name="description" class="w-full mb-3 rounded-md border-gray-300 p-2" required></textarea>
+
+                                <!-- Boutons -->
+                                <div class="flex justify-end gap-2 mt-4">
+                                    <button type="button" id="close-modal" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Annuler</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Créer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
                 </div>
                 <!-- Search and Filter -->
-                <div class="bg-white shadow rounded-lg p-4 mb-6 flex flex-col md:flex-row gap-4 md:items-center">
-                    <input type="text" placeholder="Rechercher des annonces..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
-                    <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                        <option>Tous les cours</option>
-                        <option>Fondamentaux IA</option>
-                        <option>Anglais 204</option>
-                        <option>Structures de données</option>
-                    </select>
-                </div>
+                <!-- Search Bar -->
+                <form method="GET" action="{% url 'Annonces:annonces' %}" class="flex gap-4 mb-4">
+                    <input type="text" name="q" placeholder="Rechercher dans les annonces..."
+                           value="{{ query }}"
+                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded-md">Rechercher</button>
+                </form>
                 <!-- Announcements List -->
                 <div class="space-y-6">
-                    <!-- Announcement Card 1 -->
-                    <div class="bg-white shadow rounded-lg p-5 flex flex-col">
-                        <div class="flex items-center gap-3 mb-2">
+                {% for annonce in annonces %}
+                <div class="bg-white shadow rounded-lg p-5 flex flex-col relative">
+                    <!-- Header : icône + titre + boutons -->
+                    <div class="flex items-center justify-between mb-2 gap-3">
+                        <div class="flex items-center gap-3">
                             <div class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center text-xl">
                                 <i class="fas fa-bullhorn"></i>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-800 text-base">Planning des examens de mi-semestre publié</h3>
-                                <span class="text-xs text-gray-500">Fondamentaux IA • 10 juillet 2025</span>
+                                <h3 class="font-semibold text-gray-800 text-base">{{ annonce.titre }}</h3>
+                                <span class="text-xs text-gray-500">{{ annonce.objet }} • {{ annonce.date_creation }}</span>
                             </div>
                         </div>
-                        <p class="text-gray-600 text-sm mb-4 flex-1">Le planning des examens de mi-semestre est désormais disponible. Veuillez consulter le calendrier pour connaître votre créneau et salle.</p>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-gray-400"><i class="far fa-user mr-1"></i>Pr. Smith</span>
-                            <div class="flex gap-2">
-                                <a href="#" class="text-gray-400 hover:text-blue-700" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="text-gray-400 hover:text-red-600" title="Delete"><i class="fas fa-trash"></i></a>
-                            </div>
+
+                        {% if annonce.auteur == request.user %}
+                        <div class="flex gap-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-btn" 
+                                    data-id="{{ annonce.id }}"
+                                    data-titre="{{ annonce.titre }}"
+                                    data-objet="{{ annonce.objet }}"
+                                    data-description="{{ annonce.description }}" 
+                                    title="Éditer">
+                                <i class="fas fa-edit text-lg"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-btn" 
+                                    data-id="{{ annonce.id }}" 
+                                    title="Supprimer">
+                                <i class="fas fa-trash text-lg"></i>
+                            </button>
                         </div>
+                        {% endif %}
                     </div>
-                    <!-- Announcement Card 2 -->
-                    <div class="bg-white shadow rounded-lg p-5 flex flex-col">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="bg-green-100 text-green-600 rounded-full w-10 h-10 flex items-center justify-center text-xl">
-                                <i class="fas fa-bullhorn"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-800 text-base">Date limite du devoir 2 prolongée</h3>
-                                <span class="text-xs text-gray-500">Structures de données • 8 juillet 2025</span>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4 flex-1">La date limite pour le devoir 2 a été prolongée jusqu'au 15 juillet suite aux demandes des étudiants.</p>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-gray-400"><i class="far fa-user mr-1"></i>Dr. Lee</span>
-                            <div class="flex gap-2">
-                                <a href="#" class="text-gray-400 hover:text-blue-700" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="text-gray-400 hover:text-red-600" title="Delete"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </div>
+
+                    <!-- Description -->
+                    <p class="text-gray-600 text-sm mb-4 flex-1">{{ annonce.description }}</p>
+
+                    <!-- Auteur -->
+                    <div class="flex justify-end items-center text-xs text-gray-400">
+                        <span><i class="far fa-user mr-1"></i>{{ annonce.auteur.username }}</span>
                     </div>
-                    <!-- Announcement Card 3 -->
-                    <div class="bg-white shadow rounded-lg p-5 flex flex-col">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="bg-yellow-100 text-yellow-600 rounded-full w-10 h-10 flex items-center justify-center text-xl">
-                                <i class="fas fa-bullhorn"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-800 text-base">Conférence invitée : IA en santé</h3>
-                                <span class="text-xs text-gray-500">Anglais 204 • 5 juillet 2025</span>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4 flex-1">Participez à une conférence spéciale sur les applications de l'IA en santé, prévue le 15 juillet à 10h00 en salle 204.</p>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-gray-400"><i class="far fa-user mr-1"></i>Pr. Adams</span>
-                            <div class="flex gap-2">
-                                <a href="#" class="text-gray-400 hover:text-blue-700" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="text-gray-400 hover:text-red-600" title="Delete"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </div>
+                </div>
+                {% endfor %}
+
+                    <!-- Edit Modal -->
+                    <div id="edit-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden z-50 flex items-center justify-center">
+                      <div class="rounded-lg shadow-lg w-full max-w-md p-6" style="background-color: #afc4cc;">
+                        <h2 class="text-xl font-bold mb-4 text-center">Éditer l'annonce</h2>
+                        <form id="edit-form" method="POST">
+                          {% csrf_token %}
+                          <label class="block mb-2">Titre</label>
+                          <input type="text" name="titre" id="edit-titre" class="w-full mb-3 rounded-md border-gray-300 p-2" required>
+
+                          <label class="block mb-2">Objet</label>
+                          <select name="objet" id="edit-objet" class="w-full mb-3 rounded-md border-gray-300 p-2" required>
+                            <option value="">-- Choisir un objet --</option>
+                            {% for option in objet_choices %}
+                              <option value="{{ option }}">{{ option|capfirst }}</option>
+                            {% endfor %}
+                          </select>
+
+                          <label class="block mb-2">Description</label>
+                          <textarea name="description" id="edit-description" class="w-full mb-3 rounded-md border-gray-300 p-2" required></textarea>
+
+                          <div class="flex justify-end gap-2 mt-4">
+                            <button type="button" id="close-edit-modal" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Annuler</button>
+                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Enregistrer</button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
+
+                      <!-- Delete Modal -->
+                    <div id="delete-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden z-50 flex items-center justify-center">
+                      <div class="rounded-lg shadow-lg w-full max-w-md p-6 bg-white">
+                        <h2 class="text-xl font-bold mb-4 text-center">Confirmer la suppression</h2>
+                        <form id="delete-form" method="POST">
+                          {% csrf_token %}
+                          <p>Voulez-vous vraiment supprimer cette annonce ?</p>
+                          <div class="flex justify-end gap-2 mt-4">
+                            <button type="button" id="close-delete-modal" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Annuler</button>
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Supprimer</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+
                     <!-- More announcement cards can be added here -->
                 </div>
             </main>
         </div>
     </div>
     <script>
-        // Sidebar open/close for mobile
-        const openSidebar = document.getElementById('open-sidebar');
-        const closeSidebar = document.getElementById('close-sidebar');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebar-overlay');
-        function openSidebarMenu() {
-            sidebar.classList.add('open');
-            overlay.classList.add('open');
-        }
-        function closeSidebarMenu() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
-        }
-        if(openSidebar) openSidebar.onclick = openSidebarMenu;
-        if(closeSidebar) closeSidebar.onclick = closeSidebarMenu;
-        if(overlay) overlay.onclick = closeSidebarMenu;
-        // Accessibility: close on ESC
-        document.addEventListener('keydown', function(e){
-            if(e.key === "Escape") closeSidebarMenu();
+    // Modal Nouvelle annonce
+    const openModal = document.getElementById('open-modal');
+    const closeModal = document.getElementById('close-modal');
+    const modal = document.getElementById('modal');
+
+    if(openModal) openModal.onclick = () => modal.classList.remove('hidden');
+    if(closeModal) closeModal.onclick = () => modal.classList.add('hidden');
+
+    // Modals Edit et Delete
+    const editModal = document.getElementById('edit-modal');
+    const deleteModal = document.getElementById('delete-modal');
+
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('edit-titre').value = btn.dataset.titre;
+            document.getElementById('edit-objet').value = btn.dataset.objet;
+            document.getElementById('edit-description').value = btn.dataset.description;
+
+            // Génération URL Django correcte
+            const urlTemplate = "{% url 'Annonces:edit_annonce' 0 %}";
+            document.getElementById('edit-form').action = urlTemplate.replace('0', btn.dataset.id);
+
+            editModal.classList.remove('hidden');
         });
-    </script>
+    });
+
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const urlTemplate = "{% url 'Annonces:delete_annonce' 0 %}";
+            document.getElementById('delete-form').action = urlTemplate.replace('0', btn.dataset.id);
+            deleteModal.classList.remove('hidden');
+        });
+    });
+
+    // Fermer modals avec boutons
+    document.getElementById('close-edit-modal').onclick = () => editModal.classList.add('hidden');
+    document.getElementById('close-delete-modal').onclick = () => deleteModal.classList.add('hidden');
+
+    // Fermer les modals si clic en dehors
+    window.onclick = function(event) {
+        if(event.target == modal) modal.classList.add('hidden');
+        if(event.target == editModal) editModal.classList.add('hidden');
+        if(event.target == deleteModal) deleteModal.classList.add('hidden');
+    }
+</script>
+
 </body>
 </html>

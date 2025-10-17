@@ -27,7 +27,7 @@ urlpatterns = [
     path('Resultats', include('Grades.urls')),
     path('Calendrier', include('Calendar.urls')),
     path('Ressources', include('Resources.urls')),
-    path('Annonces', include('Annonces.urls')),
+    path('Annonces/', include('Annonces.urls')),
     path('Devoirs', include('Assignments.urls')),
     path('MonProfile/', include('Profile.urls')),
     path('Support/', include('Support.urls')),
