@@ -145,12 +145,15 @@
                                     </span>
                                     <span>Devoirs actifs : <span class="font-bold">3</span></span>
                                 </div>
+                              <!-- Ceci est un commentaire 
+
                                 <div class="flex items-center gap-3">
                                     <span class="bg-yellow-100 text-yellow-600 rounded-full w-10 h-10 flex items-center justify-center">
                                         <i class="fas fa-chart-line"></i>
                                     </span>
                                     <span>Dernier GPA : <span class="font-bold">3.8</span></span>
                                 </div>
+                              -->
                             </div>
                         </div>
                     </div>
@@ -190,25 +193,24 @@
 
                         <!-- Announcements -->
                         <div class="bg-white shadow rounded-lg p-4 xs:p-6">
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
-                                <h3 class="text-md xs:text-lg font-semibold text-gray-800">Annonces récentes</h3>
-                                <a href="#" class="text-blue-600 text-sm hover:underline">Voir tout</a>
-                            </div>
-                            <ul class="divide-y divide-gray-200">
-                                <li class="py-3">
-                                    <p class="font-medium text-gray-900">L'inscription aux cours pour l'automne 2025 commence le 15 juillet</p>
-                                    <p class="text-gray-500 text-sm">Scolarité • il y a 2 jours</p>
-                                </li>
-                                <li class="py-3">
-                                    <p class="font-medium text-gray-900">Maintenance du campus prévue ce week-end</p>
-                                    <p class="text-gray-500 text-sm">Admin • il y a 1 jour</p>
-                                </li>
-                                <li class="py-3">
-                                    <p class="font-medium text-gray-900">Nouveau séminaire IA annoncé</p>
-                                    <p class="text-gray-500 text-sm">Département IA • il y a 3 heures</p>
-                                </li>
-                            </ul>
-                        </div>
+                          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+                              <h3 class="text-md xs:text-lg font-semibold text-gray-800">Vos annonces récentes</h3>
+                              <a href="{% url 'Annonces:annonces' %}" class="text-blue-600 text-sm hover:underline">Voir tout</a>
+                          </div>
+
+                          <ul class="divide-y divide-gray-200">
+                              {% for annonce in annonces %}
+                              <li class="py-3">
+                                  <p class="font-medium text-gray-900">{{ annonce.titre }}</p>
+                                  <p class="text-gray-500 text-sm">{{ annonce.objet }} • {{ annonce.date_creation|timesince }} ago</p>
+                              </li>
+                              {% empty %}
+                              <li class="py-3">
+                                  <p class="text-gray-500 text-sm">Aucune annonce récente.</p>
+                              </li>
+                              {% endfor %}
+                          </ul>
+                      </div>
 
                         <!-- Calendar Quick View -->
                         <div class="bg-white shadow rounded-lg p-4 xs:p-6">
